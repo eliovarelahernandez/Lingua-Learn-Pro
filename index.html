@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguaLearn Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #2b2d42;
+            --success: #4cc9f0;
+            --warning: #ffb800;
+            --card-gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+            --phrase-gradient: linear-gradient(135deg, #7209b7, #560bad);
+            --ideas-gradient: linear-gradient(135deg, #480ca8, #4cc9f0);
+            --diary-gradient: linear-gradient(135deg, #f72585, #b5179e);
+            --background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: var(--background);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: var(--card-gradient);
+            color: white;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            transform: rotate(30deg);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 0.5rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            background: var(--card-gradient);
+            color: white;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+        
+        section {
+            padding: 3rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        section.active {
+            display: block;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            font-size: 2.2rem;
+        }
+        
+        h2:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 5px;
+            background: var(--accent);
+            margin: 15px auto;
+            border-radius: 5px;
+        }
+        
+        .section-description {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .card {
+            height: 220px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+        }
+        
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-radius: 15px;
+            flex-direction: column;
+        }
+        
+        .card-front {
+            background: white;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.7rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-back {
+            background: var(--card-gradient);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        .card-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: var(--card-gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .card-counter {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            background: #f1f3ff;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+        
+        /* Phrases Section */
+        .phrases-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .phrase-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phrase-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .phrase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--phrase-gradient);
+        }
+        
+        .phrase-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .phrase-translation {
+            display: none;
+            background: var(--dark);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .phrase-translation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        /* Diary Styles */
+        .diary-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 992px) {
+            .diary-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .calendar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calendar-cell {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-cell:hover {
+            background: #f1f3ff;
+        }
+        
+        .calendar-cell.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .calendar-cell.has-entry {
+            position: relative;
+        }
+        
+        .calendar-cell.has-entry::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        .day-names {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .day-name {
+            text-align: center;
+            padding: 0.5rem;
+        }
+        
+        .diary-entry {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .diary-date {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .diary-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Form Container */
+        .form-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+        
+        .form-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .card-container, .phrases-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-language"></i>
+            <span>LinguaLearn Pro</span>
+        </div>
+        <p>Tu plataforma completa para aprender inglés</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#" data-section="flashcards" class="active"><i class="fas fa-id-card"></i> Tarjetas</a></li>
+            <li><a href="#" data-section="phrases"><i class="fas fa-comment-alt"></i> Frases</a></li>
+            <li><a href="#" data-section="diary"><i class="fas fa-book"></i> Diario</a></li>
+            <li><a href="#" data-section="add-content"><i class="fas fa-plus-circle"></i> Agregar</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section id="flashcards" class="active">
+            <h2>Tarjetas de Vocabulario</h2>
+            <p class="section-description">Amplía tu vocabulario con estas tarjetas interactivas. Haz clic en cada tarjeta para ver la frase de ejemplo.</p>
+            
+            <div class="card-container">
+                <!-- Las tarjetas se generarán con JavaScript -->
+            </div>
+            
+            <div class="card-controls">
+                <button id="prev-card" class="btn"><i class="fas fa-arrow-left"></i> Anterior</button>
+                <div class="card-counter">1/5</div>
+                <button id="next-card" class="btn">Siguiente <i class="fas fa-arrow-right"></i></button>
+                <button id="shuffle-cards" class="btn btn-outline"><i class="fas fa-random"></i> Mezclar</button>
+            </div>
+        </section>
+        
+        <section id="phrases">
+            <h2>Frases en Inglés</h2>
+            <p class="section-description">Practica con estas frases útiles. Haz clic en el botón para ver la traducción al español.</p>
+            
+            <div class="phrases-container">
+                <!-- Las frases se generarán con JavaScript -->
+            </div>
+        </section>
+        
+        <section id="diary">
+            <h2>Diario de Estudio</h2>
+            <p class="section-description">Registra tu progreso diario y planifica tus objetivos de aprendizaje.</p>
+            
+            <div class="diary-container">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button id="prev-month" class="btn btn-outline"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="current-month">Septiembre 2023</h3>
+                        <button id="next-month" class="btn btn-outline"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <div class="day-names">
+                        <div class="day-name">Dom</div>
+                        <div class="day-name">Lun</div>
+                        <div class="day-name">Mar</div>
+                        <div class="day-name">Mié</div>
+                        <div class="day-name">Jue</div>
+                        <div class="day-name">Vie</div>
+                        <div class="day-name">Sáb</div>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendar-days">
+                        <!-- Los días del calendario se generarán con JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="diary-entry">
+                    <div class="diary-date" id="selected-date">15 de Septiembre, 2023</div>
+                    
+                    <form id="diary-form">
+                        <div class="form-group">
+                            <label for="today"><i class="fas fa-pencil-alt"></i> Hoy aprendí:</label>
+                            <textarea id="today" rows="4" placeholder="Escribe lo que estudiaste hoy..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tomorrow"><i class="fas fa-tasks"></i> Mañana voy a:</label>
+                            <textarea id="tomorrow" rows="4" placeholder="Escribe lo que planeas estudiar mañana..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn"><i class="fas fa-save"></i> Guardar Entrada</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section id="add-content">
+            <h2>Agregar Nuevo Contenido</h2>
+            <p class="section-description">Amplía tu material de estudio agregando nuevas tarjetas y frases con significado.</p>
+            
+            <div class="form-container">
+                <h3 class="form-title"><i class="fas fa-id-card"></i> Agregar Nueva Tarjeta</h3>
+                <form id="add-card-form">
+                    <div class="form-group">
+                        <label for="card-word"><i class="fas fa-font"></i> Palabra en Inglés:</label>
+                        <input type="text" id="card-word" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-phrase"><i class="fas fa-comment"></i> Frase con la Palabra:</label>
+                        <textarea id="card-phrase" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn"><i class="fas fa-plus"></i> Agregar Tarjeta</button>
+                </form>
+            </div>
+            
+            <div class="form-container">
+                <h3 class="form-title"><i class="fas fa-comment-alt"></i> Agregar Nueva Frase</h3>
+                <form id="add-phrase-form">
+                    <div class="form-group">
+                        <label for="phrase-text"><i class="fas fa-quote-left"></i> Frase en Inglés:</label>
+                        <textarea id="phrase-text" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="phrase-translation"><i class="fas fa-language"></i> Traducción al Español:</label>
+                        <textarea id="phrase-translation" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn"><i class="fas fa-plus"></i> Agregar Frase</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <p>LinguaLearn Pro - Tu plataforma completa para aprender inglés</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>&copy; 2023 LinguaLearn Pro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos de ejemplo
+        let flashcards = [
+            { word: "Delight", phrase: "The children screamed with delight when they saw the presents." },
+            { word: "Accomplish", phrase: "She felt a sense of pride after accomplishing her goals." },
+            { word: "Benevolent", phrase: "The benevolent donor gave millions to charity." },
+            { word: "Conscientious", phrase: "He was conscientious about recycling and reducing waste." },
+            { word: "Diligent", phrase: "The diligent student always completed her homework on time." }
+        ];
+        
+        let phrases = [
+            { 
+                text: "The quick brown fox jumps over the lazy dog", 
+                translation: "El rápido zorro marrón salta sobre el perro perezoso."
+            },
+            { 
+                text: "Break a leg", 
+                translation: "Buena suerte (literalmente: 'rompe una pierna')."
+            },
+            { 
+                text: "It's raining cats and dogs", 
+                translation: "Está lloviendo a cántaros (literalmente: 'está lloviendo perros y gatos')."
+            }
+        ];
+        
+        // Variables de estado
+        let currentCardIndex = 0;
+        let currentDate = new Date();
+        let selectedDate = new Date();
+        let diaryEntries = {};
+        
+        // Elementos del DOM
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+        const cardContainer = document.querySelector('.card-container');
+        const prevCardBtn = document.getElementById('prev-card');
+        const nextCardBtn = document.getElementById('next-card');
+        const shuffleCardsBtn = document.getElementById('shuffle-cards');
+        const cardCounter = document.querySelector('.card-counter');
+        const phrasesContainer = document.querySelector('.phrases-container');
+        const addCardForm = document.getElementById('add-card-form');
+        const addPhraseForm = document.getElementById('add-phrase-form');
+        const diaryForm = document.getElementById('diary-form');
+        const todayTextarea = document.getElementById('today');
+        const tomorrowTextarea = document.getElementById('tomorrow');
+        const selectedDateEl = document.getElementById('selected-date');
+        const currentMonthEl = document.getElementById('current-month');
+        const calendarDaysEl = document.getElementById('calendar-days');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        
+        // Navegación entre secciones
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = link.getAttribute('data-section');
+                
+                // Actualizar enlace activo
+                navLinks.forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                link.classList.add('active');
+                
+                // Ocultar todas las secciones
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Mostrar la sección objetivo
+                document.getElementById(targetSection).classList.add('active');
+                
+                // Si es la sección del diario, actualizar el calendario
+                if (targetSection === 'diary') {
+                    renderCalendar();
+                    loadDiaryEntry(formatDate(selectedDate));
+                }
+            });
+        });
+        
+        // Funciones para las tarjetas
+        function renderCards() {
+            cardContainer.innerHTML = '';
+            flashcards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                if (index === currentCardIndex) {
+                    cardElement.classList.add('active');
+                }
+                cardElement.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <h3>${card.word}</h3>
+                        </div>
+                        <div class="card-back">
+                            <p>${card.phrase}</p>
+                        </div>
+                    </div>
+                `;
+                
+                cardElement.addEventListener('click', () => {
+                    cardElement.classList.toggle('flipped');
+                });
+                
+                cardContainer.appendChild(cardElement);
+            });
+            
+            updateCardCounter();
+        }
+        
+        function updateCardCounter() {
+            cardCounter.textContent = `${currentCardIndex + 1}/${flashcards.length}`;
+        }
+        
+        prevCardBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                renderCards();
+            }
+        });
+        
+        nextCardBtn.addEventListener('click', () => {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                renderCards();
+            }
+        });
+        
+        shuffleCardsBtn.addEventListener('click', () => {
+            // Algoritmo de Fisher-Yates para mezclar array
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentCardIndex = 0;
+            renderCards();
+        });
+        
+        // Funciones para las frases
+        function renderPhrases() {
+            phrasesContainer.innerHTML = '';
+            phrases.forEach((phrase, index) => {
+                const phraseElement = document.createElement('div');
+                phraseElement.className = 'phrase-card';
+                phraseElement.innerHTML = `
+                    <div class="phrase-text">${phrase.text}</div>
+                    <button class="btn btn-sm" onclick="toggleTranslation(${index})">
+                        <i class="fas fa-language"></i> Ver traducción
+                    </button>
+                    <div class="phrase-translation" id="translation-${index}">
+                        <strong>Traducción:</strong> ${phrase.translation}
+                    </div>
+                `;
+                
+                phrasesContainer.appendChild(phraseElement);
+            });
+        }
+        
+        // Función global para mostrar/ocultar traducción
+        window.toggleTranslation = function(index) {
+            const translation = document.getElementById(`translation-${index}`);
+            translation.classList.toggle('show');
+        };
+        
+        // Funciones para el diario
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Actualizar el encabezado del mes
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+            ];
+            currentMonthEl.textContent = `${monthNames[month]} ${year}`;
+            
+            // Obtener el primer día del mes y el último día del mes
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            // Obtener el día de la semana del primer día (0 = Domingo, 1 = Lunes, etc.)
+            const firstDayIndex = firstDay.getDay();
+            
+            // Limpiar el calendario
+            calendarDaysEl.innerHTML = '';
+            
+            // Agregar celdas vacías para los días del mes anterior
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-cell';
+                calendarDaysEl.appendChild(emptyCell);
+            }
+            
+            // Agregar los días del mes
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'calendar-cell';
+                cell.textContent = day;
+                
+                // Comprobar si este día tiene una entrada en el diario
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                if (diaryEntries[dateStr]) {
+                    cell.classList.add('has-entry');
+                }
+                
+                // Comprobar si es el día seleccionado
+                if (selectedDate.getFullYear() === year && 
+                    selectedDate.getMonth() === month && 
+                    selectedDate.getDate() === day) {
+                    cell.classList.add('active');
+                }
+                
+                cell.addEventListener('click', () => {
+                    selectedDate = new Date(year, month, day);
+                    renderCalendar();
+                    loadDiaryEntry(dateStr);
+                });
+                
+                calendarDaysEl.appendChild(cell);
+            }
+        }
+        
+        function loadDiaryEntry(dateStr) {
+            // Actualizar la fecha seleccionada
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            selectedDateEl.textContent = selectedDate.toLocaleDateString('es-ES', options);
+            
+            // Cargar la entrada del diario si existe
+            if (diaryEntries[dateStr]) {
+                todayTextarea.value = diaryEntries[dateStr].today || '';
+                tomorrowTextarea.value = diaryEntries[dateStr].tomorrow || '';
+            } else {
+                todayTextarea.value = '';
+                tomorrowTextarea.value = '';
+            }
+        }
+        
+        // Navegación del calendario
+        prevMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+        
+        nextMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+        
+        // Manejo de formularios
+        addCardForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const word = document.getElementById('card-word').value;
+            const phrase = document.getElementById('card-phrase').value;
+            
+            flashcards.push({ word, phrase });
+            renderCards();
+            addCardForm.reset();
+            
+            // Mostrar notificación
+            showNotification('Tarjeta agregada correctamente!');
+        });
+        
+        addPhraseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = document.getElementById('phrase-text').value;
+            const translation = document.getElementById('phrase-translation').value;
+            
+            phrases.push({ text, translation });
+            renderPhrases();
+            addPhraseForm.reset();
+            
+            // Mostrar notificación
+            showNotification('Frase agregada correctamente!');
+        });
+        
+        diaryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const dateStr = formatDate(selectedDate);
+            const today = todayTextarea.value;
+            const tomorrow = tomorrowTextarea.value;
+            
+            // Guardar la entrada del diario
+            diaryEntries[dateStr] = {
+                today,
+                tomorrow,
+                date: dateStr
+            };
+            
+            // Actualizar el calendario para mostrar que este día tiene una entrada
+            renderCalendar();
+            
+            // Mostrar notificación
+            showNotification('Entrada del diario guardada correctamente!');
+        });
+        
+        // Función para mostrar notificaciones
+        function showNotification(message) {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'var(--primary)';
+            notification.style.color = 'white';
+            notification.style.padding = '1rem 1.5rem';
+            notification.style.borderRadius = '8px';
+            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            notification.style.zIndex = '1000';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s ease';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Mostrar notificación
+            setTimeout(() => {
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // Ocultar después de 3 segundos
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Inicializar la aplicación
+        renderCards();
+        renderPhrases();
+        renderCalendar();
+        loadDiaryEntry(formatDate(selectedDate));
+    </script>
+</body>
+</html>
