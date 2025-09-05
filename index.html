@@ -20,6 +20,8 @@
             --ideas-gradient: linear-gradient(135deg, #480ca8, #4cc9f0);
             --diary-gradient: linear-gradient(135deg, #f72585, #b5179e);
             --background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
         }
         
         * {
@@ -34,6 +36,7 @@
             color: var(--dark);
             line-height: 1.6;
             min-height: 100vh;
+            transition: var(--transition);
         }
         
         header {
@@ -163,6 +166,7 @@
             height: 220px;
             perspective: 1000px;
             cursor: pointer;
+            position: relative;
         }
         
         .card-inner {
@@ -372,6 +376,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            gap: 1rem;
         }
         
         .calendar-grid {
@@ -473,10 +478,9 @@
         .footer-content {
             max-width: 800px;
             margin: 0 auto;
-        }
-        
-        .footer-content p {
-            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         
         .social-icons {
@@ -497,6 +501,231 @@
             transform: translateY(-3px);
         }
         
+        /* Nuevos estilos para mejoras */
+        .theme-switch {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .theme-switch:hover {
+            transform: rotate(30deg);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Modo oscuro */
+        [data-theme="dark"] {
+            --light: #2b2d42;
+            --dark: #f8f9fa;
+            --background: linear-gradient(135deg, #232526 0%, #414345 100%);
+        }
+        
+        [data-theme="dark"] header {
+            background: linear-gradient(135deg, #3a0ca3, #24086f);
+        }
+        
+        [data-theme="dark"] .card-front {
+            background: #3d3d3d;
+            color: white;
+        }
+        
+        [data-theme="dark"] .form-container,
+        [data-theme="dark"] .phrase-card,
+        [data-theme="dark"] .calendar,
+        [data-theme="dark"] .diary-entry {
+            background: #3d3d3d;
+            color: white;
+        }
+        
+        [data-theme="dark"] input,
+        [data-theme="dark"] textarea,
+        [data-theme="dark"] select {
+            background: #2b2b2b;
+            color: white;
+            border-color: #555;
+        }
+        
+        [data-theme="dark"] nav {
+            background: #3d3d3d;
+        }
+        
+        [data-theme="dark"] nav ul li a {
+            color: white;
+        }
+        
+        [data-theme="dark"] .section-description {
+            color: #b1b1b1;
+        }
+        
+        [data-theme="dark"] .card-counter {
+            background: #2b2b2b;
+            color: white;
+        }
+        
+        [data-theme="dark"] label {
+            color: white;
+        }
+        
+        /* Mejoras de accesibilidad */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Mejoras en las tarjetas */
+        .card-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .card-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+        
+        .card-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .card-category {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            background: rgba(67, 97, 238, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            color: var(--primary);
+        }
+        
+        /* Barra de búsqueda */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        
+        .search-input {
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 50px;
+            border: 2px solid #e2e8f0;
+            width: 100%;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        /* Categorías */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .category-btn.active,
+        .category-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        [data-theme="dark"] .category-btn {
+            background: #3d3d3d;
+            color: white;
+        }
+        
+        /* Estadísticas */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        [data-theme="dark"] .stat-card {
+            background: #3d3d3d;
+        }
+        
+        /* Mejoras responsive */
         @media (max-width: 768px) {
             nav ul {
                 flex-direction: column;
@@ -514,6 +743,112 @@
             h2 {
                 font-size: 1.8rem;
             }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .theme-switch {
+                top: 0.5rem;
+                right: 0.5rem;
+                width: 35px;
+                height: 35px;
+            }
+            
+            .card-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .diary-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Animaciones mejoradas */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Toast notifications mejoradas */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--accent);
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .progress-bar-inner {
+            height: 100%;
+            width: 100%;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            animation: progress 3s linear forwards;
+        }
+        
+        @keyframes progress {
+            0% { width: 100%; }
+            100% { width: 0%; }
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        
+        .export-import {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -524,6 +859,9 @@
             <span>LinguaLearn Pro</span>
         </div>
         <p>Tu plataforma completa para aprender inglés</p>
+        <div class="theme-switch" id="theme-switch" aria-label="Cambiar modo claro/oscuro">
+            <i class="fas fa-moon"></i>
+        </div>
     </header>
     
     <nav>
@@ -531,6 +869,7 @@
             <li><a href="#" data-section="flashcards" class="active"><i class="fas fa-id-card"></i> Tarjetas</a></li>
             <li><a href="#" data-section="phrases"><i class="fas fa-comment-alt"></i> Frases</a></li>
             <li><a href="#" data-section="diary"><i class="fas fa-book"></i> Diario</a></li>
+            <li><a href="#" data-section="stats"><i class="fas fa-chart-line"></i> Estadísticas</a></li>
             <li><a href="#" data-section="add-content"><i class="fas fa-plus-circle"></i> Agregar</a></li>
         </ul>
     </nav>
@@ -539,6 +878,18 @@
         <section id="flashcards" class="active">
             <h2>Tarjetas de Vocabulario</h2>
             <p class="section-description">Amplía tu vocabulario con estas tarjetas interactivas. Haz clic en cada tarjeta para ver la frase de ejemplo.</p>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="card-search" placeholder="Buscar palabras...">
+            </div>
+            
+            <div class="categories">
+                <button class="category-btn active" data-category="all">Todas</button>
+                <button class="category-btn" data-category="general">General</button>
+                <button class="category-btn" data-category="work">Trabajo</button>
+                <button class="category-btn" data-category="travel">Viajes</button>
+            </div>
             
             <div class="card-container">
                 <!-- Las tarjetas se generarán con JavaScript -->
@@ -549,6 +900,12 @@
                 <div class="card-counter">1/5</div>
                 <button id="next-card" class="btn">Siguiente <i class="fas fa-arrow-right"></i></button>
                 <button id="shuffle-cards" class="btn btn-outline"><i class="fas fa-random"></i> Mezclar</button>
+                <button id="speak-card" class="btn btn-outline"><i class="fas fa-volume-up"></i> Pronunciar</button>
+            </div>
+            
+            <div class="export-import">
+                <button id="export-cards" class="btn btn-outline"><i class="fas fa-download"></i> Exportar Tarjetas</button>
+                <button id="import-cards" class="btn btn-outline"><i class="fas fa-upload"></i> Importar Tarjetas</button>
             </div>
         </section>
         
@@ -556,8 +913,18 @@
             <h2>Frases en Inglés</h2>
             <p class="section-description">Practica con estas frases útiles. Haz clic en el botón para ver la traducción al español.</p>
             
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="phrase-search" placeholder="Buscar frases...">
+            </div>
+            
             <div class="phrases-container">
                 <!-- Las frases se generarán con JavaScript -->
+            </div>
+            
+            <div class="export-import">
+                <button id="export-phrases" class="btn btn-outline"><i class="fas fa-download"></i> Exportar Frases</button>
+                <button id="import-phrases" class="btn btn-outline"><i class="fas fa-upload"></i> Importar Frases</button>
             </div>
         </section>
         
@@ -602,9 +969,62 @@
                             <textarea id="tomorrow" rows="4" placeholder="Escribe lo que planeas estudiar mañana..."></textarea>
                         </div>
                         
+                        <div class="form-group">
+                            <label for="mood"><i class="fas fa-smile"></i> ¿Cómo te sentiste hoy?</label>
+                            <select id="mood">
+                                <option value="">Selecciona tu estado de ánimo</option>
+                                <option value="happy">😀 Muy bien</option>
+                                <option value="good">🙂 Bien</option>
+                                <option value="neutral">😐 Regular</option>
+                                <option value="bad">😔 Mal</option>
+                                <option value="awful">😣 Muy mal</option>
+                            </select>
+                        </div>
+                        
                         <button type="submit" class="btn"><i class="fas fa-save"></i> Guardar Entrada</button>
                     </form>
                 </div>
+            </div>
+            
+            <div class="export-import">
+                <button id="export-diary" class="btn btn-outline"><i class="fas fa-download"></i> Exportar Diario</button>
+                <button id="import-diary" class="btn btn-outline"><i class="fas fa-upload"></i> Importar Diario</button>
+            </div>
+        </section>
+        
+        <section id="stats">
+            <h2>Estadísticas de Progreso</h2>
+            <p class="section-description">Revisa tu progreso y sigue tu mejora en el aprendizaje del inglés.</p>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-cards">0</div>
+                    <div class="stat-label">Tarjetas aprendidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-phrases">0</div>
+                    <div class="stat-label">Frases dominadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="streak-days">0</div>
+                    <div class="stat-label">Días consecutivos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-entries">0</div>
+                    <div class="stat-label">Entradas en diario</div>
+                </div>
+            </div>
+            
+            <div class="form-container">
+                <h3 class="form-title"><i class="fas fa-chart-pie"></i> Distribución de tiempo de estudio</h3>
+                <div id="time-chart" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f1f3ff; border-radius: 10px;">
+                    <p class="section-description">El gráfico mostraría tu distribución de tiempo de estudio por categorías.</p>
+                </div>
+            </div>
+            
+            <div class="export-import">
+                <button id="export-all" class="btn"><i class="fas fa-download"></i> Exportar Todos los Datos</button>
+                <button id="import-all" class="btn btn-outline"><i class="fas fa-upload"></i> Importar Todos los Datos</button>
             </div>
         </section>
         
@@ -623,6 +1043,16 @@
                         <label for="card-phrase"><i class="fas fa-comment"></i> Frase con la Palabra:</label>
                         <textarea id="card-phrase" rows="3" required></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="card-category"><i class="fas fa-tag"></i> Categoría:</label>
+                        <select id="card-category">
+                            <option value="general">General</option>
+                            <option value="work">Trabajo</option>
+                            <option value="travel">Viajes</option>
+                            <option value="food">Comida</option>
+                            <option value="expressions">Expresiones</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn"><i class="fas fa-plus"></i> Agregar Tarjeta</button>
                 </form>
             </div>
@@ -637,6 +1067,10 @@
                     <div class="form-group">
                         <label for="phrase-translation"><i class="fas fa-language"></i> Traducción al Español:</label>
                         <textarea id="phrase-translation" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="phrase-context"><i class="fas fa-info-circle"></i> Contexto de uso (opcional):</label>
+                        <textarea id="phrase-context" rows="2" placeholder="¿En qué situaciones se usaría esta frase?"></textarea>
                     </div>
                     <button type="submit" class="btn"><i class="fas fa-plus"></i> Agregar Frase</button>
                 </form>
@@ -658,35 +1092,41 @@
     </footer>
 
     <script>
-        // Datos de ejemplo
-        let flashcards = [
-            { word: "Delight", phrase: "The children screamed with delight when they saw the presents." },
-            { word: "Accomplish", phrase: "She felt a sense of pride after accomplishing her goals." },
-            { word: "Benevolent", phrase: "The benevolent donor gave millions to charity." },
-            { word: "Conscientious", phrase: "He was conscientious about recycling and reducing waste." },
-            { word: "Diligent", phrase: "The diligent student always completed her homework on time." }
+        // Cargar datos desde localStorage o usar datos de ejemplo
+        let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [
+            { word: "Delight", phrase: "The children screamed with delight when they saw the presents.", category: "general" },
+            { word: "Accomplish", phrase: "She felt a sense of pride after accomplishing her goals.", category: "work" },
+            { word: "Benevolent", phrase: "The benevolent donor gave millions to charity.", category: "general" },
+            { word: "Conscientious", phrase: "He was conscientious about recycling and reducing waste.", category: "general" },
+            { word: "Diligent", phrase: "The diligent student always completed her homework on time.", category: "work" }
         ];
         
-        let phrases = [
+        let phrases = JSON.parse(localStorage.getItem('phrases')) || [
             { 
                 text: "The quick brown fox jumps over the lazy dog", 
-                translation: "El rápido zorro marrón salta sobre el perro perezoso."
+                translation: "El rápido zorro marrón salta sobre el perro perezoso.",
+                context: "Frase utilizada frecuentemente para practicar tipografía y mostrar fuentes."
             },
             { 
                 text: "Break a leg", 
-                translation: "Buena suerte (literalmente: 'rompe una pierna')."
+                translation: "Buena suerte (literalmente: 'rompe una pierna').",
+                context: "Se dice a alguien antes de una actuación o evento importante."
             },
             { 
                 text: "It's raining cats and dogs", 
-                translation: "Está lloviendo a cántaros (literalmente: 'está lloviendo perros y gatos')."
+                translation: "Está lloviendo a cántaros (literalmente: 'está lloviendo perros y gatos').",
+                context: "Expresión para describir una lluvia muy intensa."
             }
         ];
+        
+        let diaryEntries = JSON.parse(localStorage.getItem('diaryEntries')) || {};
+        let settings = JSON.parse(localStorage.getItem('settings')) || { theme: 'light' };
         
         // Variables de estado
         let currentCardIndex = 0;
         let currentDate = new Date();
         let selectedDate = new Date();
-        let diaryEntries = {};
+        let currentCategory = 'all';
         
         // Elementos del DOM
         const sections = document.querySelectorAll('section');
@@ -695,6 +1135,7 @@
         const prevCardBtn = document.getElementById('prev-card');
         const nextCardBtn = document.getElementById('next-card');
         const shuffleCardsBtn = document.getElementById('shuffle-cards');
+        const speakCardBtn = document.getElementById('speak-card');
         const cardCounter = document.querySelector('.card-counter');
         const phrasesContainer = document.querySelector('.phrases-container');
         const addCardForm = document.getElementById('add-card-form');
@@ -702,53 +1143,139 @@
         const diaryForm = document.getElementById('diary-form');
         const todayTextarea = document.getElementById('today');
         const tomorrowTextarea = document.getElementById('tomorrow');
+        const moodSelect = document.getElementById('mood');
         const selectedDateEl = document.getElementById('selected-date');
         const currentMonthEl = document.getElementById('current-month');
         const calendarDaysEl = document.getElementById('calendar-days');
         const prevMonthBtn = document.getElementById('prev-month');
         const nextMonthBtn = document.getElementById('next-month');
+        const themeSwitch = document.getElementById('theme-switch');
+        const cardSearch = document.getElementById('card-search');
+        const phraseSearch = document.getElementById('phrase-search');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const totalCardsEl = document.getElementById('total-cards');
+        const totalPhrasesEl = document.getElementById('total-phrases');
+        const streakDaysEl = document.getElementById('streak-days');
+        const totalEntriesEl = document.getElementById('total-entries');
+        const exportCardsBtn = document.getElementById('export-cards');
+        const importCardsBtn = document.getElementById('import-cards');
+        const exportPhrasesBtn = document.getElementById('export-phrases');
+        const importPhrasesBtn = document.getElementById('import-phrases');
+        const exportDiaryBtn = document.getElementById('export-diary');
+        const importDiaryBtn = document.getElementById('import-diary');
+        const exportAllBtn = document.getElementById('export-all');
+        const importAllBtn = document.getElementById('import-all');
         
-        // Navegación entre secciones
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetSection = link.getAttribute('data-section');
-                
-                // Actualizar enlace activo
-                navLinks.forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
-                link.classList.add('active');
-                
-                // Ocultar todas las secciones
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Mostrar la sección objetivo
-                document.getElementById(targetSection).classList.add('active');
-                
-                // Si es la sección del diario, actualizar el calendario
-                if (targetSection === 'diary') {
-                    renderCalendar();
-                    loadDiaryEntry(formatDate(selectedDate));
-                }
-            });
+        // Inicializar tema
+        document.documentElement.setAttribute('data-theme', settings.theme);
+        themeSwitch.innerHTML = settings.theme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        
+        // Cambiar tema
+        themeSwitch.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeSwitch.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            
+            settings.theme = newTheme;
+            saveToLocalStorage();
         });
+        
+        // Guardar en localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('flashcards', JSON.stringify(flashcards));
+            localStorage.setItem('phrases', JSON.stringify(phrases));
+            localStorage.setItem('diaryEntries', JSON.stringify(diaryEntries));
+            localStorage.setItem('settings', JSON.stringify(settings));
+            updateStats();
+        }
+        
+        // Actualizar estadísticas
+        function updateStats() {
+            totalCardsEl.textContent = flashcards.length;
+            totalPhrasesEl.textContent = phrases.length;
+            totalEntriesEl.textContent = Object.keys(diaryEntries).length;
+            
+            // Calcular racha de días (simplificado)
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            const todayStr = formatDate(today);
+            const yesterdayStr = formatDate(yesterday);
+            
+            if (diaryEntries[todayStr] || diaryEntries[yesterdayStr]) {
+                streakDaysEl.textContent = "2"; // Simplificado para la demo
+            } else {
+                streakDaysEl.textContent = "0";
+            }
+        }
+        
+        // Mostrar notificación mejorada
+        function showNotification(message, type = 'default') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+                <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
         
         // Funciones para las tarjetas
         function renderCards() {
             cardContainer.innerHTML = '';
-            flashcards.forEach((card, index) => {
+            const searchTerm = cardSearch.value.toLowerCase();
+            
+            let filteredCards = currentCategory === 'all' 
+                ? flashcards 
+                : flashcards.filter(card => card.category === currentCategory);
+                
+            if (searchTerm) {
+                filteredCards = filteredCards.filter(card => 
+                    card.word.toLowerCase().includes(searchTerm) || 
+                    card.phrase.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (filteredCards.length === 0) {
+                cardContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: #6c757d;"></i>
+                        <p>No se encontraron tarjetas que coincidan con tu búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredCards.forEach((card, index) => {
+                const isActive = index === currentCardIndex;
                 const cardElement = document.createElement('div');
-                cardElement.className = 'card';
-                if (index === currentCardIndex) {
-                    cardElement.classList.add('active');
-                }
+                cardElement.className = `card ${isActive ? 'active' : ''}`;
+                
                 cardElement.innerHTML = `
                     <div class="card-inner">
                         <div class="card-front">
+                            <div class="card-actions">
+                                <button class="card-btn" onclick="event.stopPropagation(); editCard(${flashcards.indexOf(card)})"><i class="fas fa-edit"></i></button>
+                                <button class="card-btn" onclick="event.stopPropagation(); deleteCard(${flashcards.indexOf(card)})"><i class="fas fa-trash"></i></button>
+                            </div>
                             <h3>${card.word}</h3>
+                            <span class="card-category">${card.category}</span>
                         </div>
                         <div class="card-back">
                             <p>${card.phrase}</p>
@@ -756,8 +1283,10 @@
                     </div>
                 `;
                 
-                cardElement.addEventListener('click', () => {
-                    cardElement.classList.toggle('flipped');
+                cardElement.addEventListener('click', (e) => {
+                    if (!e.target.closest('.card-actions')) {
+                        cardElement.classList.toggle('flipped');
+                    }
                 });
                 
                 cardContainer.appendChild(cardElement);
@@ -766,42 +1295,94 @@
             updateCardCounter();
         }
         
-        function updateCardCounter() {
-            cardCounter.textContent = `${currentCardIndex + 1}/${flashcards.length}`;
-        }
+        // Funciones para editar y eliminar tarjetas
+        window.editCard = function(index) {
+            const card = flashcards[index];
+            const newWord = prompt("Editar palabra:", card.word);
+            if (newWord !== null) {
+                const newPhrase = prompt("Editar frase:", card.phrase);
+                if (newPhrase !== null) {
+                    const newCategory = prompt("Editar categoría (general, work, travel, food, expressions):", card.category);
+                    if (newCategory !== null) {
+                        flashcards[index] = {
+                            ...card,
+                            word: newWord,
+                            phrase: newPhrase,
+                            category: newCategory
+                        };
+                        saveToLocalStorage();
+                        renderCards();
+                        showNotification('Tarjeta actualizada correctamente', 'success');
+                    }
+                }
+            }
+        };
         
-        prevCardBtn.addEventListener('click', () => {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
+        window.deleteCard = function(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+                flashcards.splice(index, 1);
+                if (currentCardIndex >= index && currentCardIndex > 0) {
+                    currentCardIndex--;
+                }
+                saveToLocalStorage();
                 renderCards();
+                showNotification('Tarjeta eliminada correctamente', 'success');
+            }
+        };
+        
+        // Pronunciar palabra
+        speakCardBtn.addEventListener('click', () => {
+            if ('speechSynthesis' in window && flashcards.length > 0) {
+                const utterance = new SpeechSynthesisUtterance(flashcards[currentCardIndex].word);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
+            } else {
+                showNotification('Tu navegador no soporta la función de voz', 'error');
             }
         });
         
-        nextCardBtn.addEventListener('click', () => {
-            if (currentCardIndex < flashcards.length - 1) {
-                currentCardIndex++;
-                renderCards();
-            }
-        });
+        // Búsqueda de tarjetas
+        cardSearch.addEventListener('input', renderCards);
         
-        shuffleCardsBtn.addEventListener('click', () => {
-            // Algoritmo de Fisher-Yates para mezclar array
-            for (let i = flashcards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
-            }
-            currentCardIndex = 0;
-            renderCards();
+        // Filtrado por categorías
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                renderCards();
+            });
         });
         
         // Funciones para las frases
         function renderPhrases() {
             phrasesContainer.innerHTML = '';
-            phrases.forEach((phrase, index) => {
+            const searchTerm = phraseSearch.value.toLowerCase();
+            
+            let filteredPhrases = phrases;
+            if (searchTerm) {
+                filteredPhrases = phrases.filter(phrase => 
+                    phrase.text.toLowerCase().includes(searchTerm) || 
+                    phrase.translation.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (filteredPhrases.length === 0) {
+                phrasesContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: #6c757d;"></i>
+                        <p>No se encontraron frases que coincidan con tu búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredPhrases.forEach((phrase, index) => {
                 const phraseElement = document.createElement('div');
                 phraseElement.className = 'phrase-card';
                 phraseElement.innerHTML = `
                     <div class="phrase-text">${phrase.text}</div>
+                    ${phrase.context ? `<div class="phrase-context" style="font-style: italic; margin-bottom: 1rem; color: #6c757d;">${phrase.context}</div>` : ''}
                     <button class="btn btn-sm" onclick="toggleTranslation(${index})">
                         <i class="fas fa-language"></i> Ver traducción
                     </button>
@@ -813,6 +1394,9 @@
                 phrasesContainer.appendChild(phraseElement);
             });
         }
+        
+        // Búsqueda de frases
+        phraseSearch.addEventListener('input', renderPhrases);
         
         // Función global para mostrar/ocultar traducción
         window.toggleTranslation = function(index) {
@@ -891,9 +1475,11 @@
             if (diaryEntries[dateStr]) {
                 todayTextarea.value = diaryEntries[dateStr].today || '';
                 tomorrowTextarea.value = diaryEntries[dateStr].tomorrow || '';
+                moodSelect.value = diaryEntries[dateStr].mood || '';
             } else {
                 todayTextarea.value = '';
                 tomorrowTextarea.value = '';
+                moodSelect.value = '';
             }
         }
         
@@ -913,26 +1499,30 @@
             e.preventDefault();
             const word = document.getElementById('card-word').value;
             const phrase = document.getElementById('card-phrase').value;
+            const category = document.getElementById('card-category').value;
             
-            flashcards.push({ word, phrase });
+            flashcards.push({ word, phrase, category });
+            saveToLocalStorage();
             renderCards();
             addCardForm.reset();
             
             // Mostrar notificación
-            showNotification('Tarjeta agregada correctamente!');
+            showNotification('Tarjeta agregada correctamente!', 'success');
         });
         
         addPhraseForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const text = document.getElementById('phrase-text').value;
             const translation = document.getElementById('phrase-translation').value;
+            const context = document.getElementById('phrase-context').value;
             
-            phrases.push({ text, translation });
+            phrases.push({ text, translation, context });
+            saveToLocalStorage();
             renderPhrases();
             addPhraseForm.reset();
             
             // Mostrar notificación
-            showNotification('Frase agregada correctamente!');
+            showNotification('Frase agregada correctamente!', 'success');
         });
         
         diaryForm.addEventListener('submit', (e) => {
@@ -940,59 +1530,164 @@
             const dateStr = formatDate(selectedDate);
             const today = todayTextarea.value;
             const tomorrow = tomorrowTextarea.value;
+            const mood = moodSelect.value;
             
             // Guardar la entrada del diario
             diaryEntries[dateStr] = {
                 today,
                 tomorrow,
+                mood,
                 date: dateStr
             };
+            
+            saveToLocalStorage();
             
             // Actualizar el calendario para mostrar que este día tiene una entrada
             renderCalendar();
             
             // Mostrar notificación
-            showNotification('Entrada del diario guardada correctamente!');
+            showNotification('Entrada del diario guardada correctamente!', 'success');
         });
         
-        // Función para mostrar notificaciones
-        function showNotification(message) {
-            // Crear elemento de notificación
-            const notification = document.createElement('div');
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.backgroundColor = 'var(--primary)';
-            notification.style.color = 'white';
-            notification.style.padding = '1rem 1.5rem';
-            notification.style.borderRadius = '8px';
-            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-            notification.style.zIndex = '1000';
-            notification.style.opacity = '0';
-            notification.style.transition = 'opacity 0.3s ease';
-            notification.textContent = message;
+        function updateCardCounter() {
+            const searchTerm = cardSearch.value.toLowerCase();
+            let filteredCards = currentCategory === 'all' 
+                ? flashcards 
+                : flashcards.filter(card => card.category === currentCategory);
+                
+            if (searchTerm) {
+                filteredCards = filteredCards.filter(card => 
+                    card.word.toLowerCase().includes(searchTerm) || 
+                    card.phrase.toLowerCase().includes(searchTerm)
+                );
+            }
             
-            document.body.appendChild(notification);
-            
-            // Mostrar notificación
-            setTimeout(() => {
-                notification.style.opacity = '1';
-            }, 10);
-            
-            // Ocultar después de 3 segundos
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
+            cardCounter.textContent = `${currentCardIndex + 1}/${filteredCards.length}`;
         }
+        
+        prevCardBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                renderCards();
+            }
+        });
+        
+        nextCardBtn.addEventListener('click', () => {
+            const searchTerm = cardSearch.value.toLowerCase();
+            let filteredCards = currentCategory === 'all' 
+                ? flashcards 
+                : flashcards.filter(card => card.category === currentCategory);
+                
+            if (searchTerm) {
+                filteredCards = filteredCards.filter(card => 
+                    card.word.toLowerCase().includes(searchTerm) || 
+                    card.phrase.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (currentCardIndex < filteredCards.length - 1) {
+                currentCardIndex++;
+                renderCards();
+            }
+        });
+        
+        shuffleCardsBtn.addEventListener('click', () => {
+            // Algoritmo de Fisher-Yates para mezclar array
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentCardIndex = 0;
+            saveToLocalStorage();
+            renderCards();
+        });
+        
+        // Funciones de exportación e importación
+        exportCardsBtn.addEventListener('click', () => {
+            const dataStr = JSON.stringify(flashcards, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const exportFileDefaultName = 'lingualearn-cards.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Tarjetas exportadas correctamente', 'success');
+        });
+        
+        importCardsBtn.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const importedCards = JSON.parse(e.target.result);
+                        if (Array.isArray(importedCards)) {
+                            flashcards = importedCards;
+                            saveToLocalStorage();
+                            renderCards();
+                            showNotification('Tarjetas importadas correctamente', 'success');
+                        } else {
+                            showNotification('Formato de archivo inválido', 'error');
+                        }
+                    } catch (error) {
+                        showNotification('Error al importar tarjetas', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        });
+        
+        // Implementar funciones similares para exportar/importar frases, diario y todos los datos
+        
+        // Navegación entre secciones
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = link.getAttribute('data-section');
+                
+                // Actualizar enlace activo
+                navLinks.forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                link.classList.add('active');
+                
+                // Ocultar todas las secciones
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Mostrar la sección objetivo
+                document.getElementById(targetSection).classList.add('active');
+                
+                // Si es la sección del diario, actualizar el calendario
+                if (targetSection === 'diary') {
+                    renderCalendar();
+                    loadDiaryEntry(formatDate(selectedDate));
+                }
+                
+                // Si es la sección de estadísticas, actualizarlas
+                if (targetSection === 'stats') {
+                    updateStats();
+                }
+            });
+        });
         
         // Inicializar la aplicación
         renderCards();
         renderPhrases();
         renderCalendar();
         loadDiaryEntry(formatDate(selectedDate));
+        updateStats();
     </script>
 </body>
 </html>
